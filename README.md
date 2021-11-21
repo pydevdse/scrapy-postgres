@@ -1,1 +1,1 @@
-# scrapy-postgres
+# scrapy-postgres-sqlalchemy
