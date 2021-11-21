@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: scrapy
+      POSTGRES_PASSWORD: releases
+      POSTGRES_DB: pythonreleases
+    volumes:
+      - pstg_db:/var/lib/postgres/data
+    ports:
+      - 5435:5435
+    command: -p 5435
+
+  spider:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_HOST: 172.17.0.1 #localhost
+      POSTGRES_USER: scrapy
+      POSTGRES_PASSWORD: releases
+      POSTGRES_DB: pythonreleases
+      POSTGRES_PORT_DB: 5435
+    restart: always
+    depends_on:
+      - db
+      
+volumes:
+  pstg_db:
